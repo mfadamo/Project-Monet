@@ -1,0 +1,11 @@
+{
+  "name": "jdu-monet",
+  "version": "0.0.0",
+  "devDependencies": {
+    "wrangler": "2.12.3"
+  },
+  "private": true,
+  "scripts": {
+    "start": "node start.js"
+  }
+}
