@@ -12,7 +12,7 @@ console.log("\x1b[33m[ROOT] Running Workers Without Cloudflare", `\n[ROOT] NodeJ
 
 var spawn = require('child_process').spawn;
 //kick off process of listing files
-var child = spawn(`${server.runCmd}`, [server.args, '--ip', server.ip, '--port', serverPort, '--local'], { shell: true });
+var child = spawn(`${server.runCmd}`, [server.args, '--ip', server.ip, '--port', serverPort, '--local --no-verify'], { shell: true });
 child.stdout.on('data', function (data) {
     var sdata = data.toString()
     var a = sdata.includes('[mf:inf]') || sdata.includes('wrangler') || sdata.includes('GET /') || sdata.includes('POST /') || sdata.includes('PUT /') || sdata.includes("[mf:wrn]")

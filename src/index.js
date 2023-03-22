@@ -35,5 +35,6 @@ export default {
 
 var route = require("./function/route");
 var varjs = require("./function/var");
+var GoogleDrive = require("./google/driveUtil");
 let usage = 0;
 console.log("[SERVER] Running")
