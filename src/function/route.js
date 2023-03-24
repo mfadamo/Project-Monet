@@ -33,6 +33,10 @@ export function post(req, path, func) {
     }
 }
 
-export function send(string, statusCode){
-    return new Response(string, {status: statusCode});
+export function send(data, statusCode, isFetch = false) {
+    if (isFetch) {
+        return new Response(fetch(data));
+    } else {
+        return new Response(data, { status: statusCode });
+    }
 }

@@ -5,7 +5,7 @@
 const settings = require('../../settings.json');
 
 const getAccessToken = () => {
-    const { client_id, client_secret, refresh_token } = settings;
+    const { client_id, client_secret, refresh_token } = settings.gdrive.credential;
     const url = 'https://www.googleapis.com/oauth2/v4/token';
     const grant_type = 'refresh_token';
 
@@ -61,7 +61,7 @@ const downloadFile = async (fileId) => {
             Authorization: `Bearer ${token}`,
         },
     });
-    return await res.buffer();
+    return await res.text();
 };
 
 const updateFile = async (fileId, newContent) => {
@@ -78,6 +78,25 @@ const updateFile = async (fileId, newContent) => {
     });
     return await res.json();
 };
+const getDownloadUrl = async (fileId) => {
+  const url = `https://www.googleapis.com/drive/v3/files/${fileId}?alt=media`;
+  const token = await getAccessToken();
+
+  const res = await fetch(url, {
+      method: 'GET',
+      headers: {
+          Authorization: `Bearer ${token}`,
+      },
+  });
+
+  if (res.status === 200) {
+      const blob = await res.blob();
+      const url = window.URL.createObjectURL(blob);
+      return url;
+  } else {
+      throw new Error(`Could not generate download URL for file ID ${fileId}`);
+  }
+};
 
 const listFiles = async (folderId) => {
     const url = `https://www.googleapis.com/drive/v3/files?q='${folderId}' in parents and trashed = false&fields=files(id,name,mimeType,createdTime,modifiedTime)`;
@@ -93,4 +112,6 @@ const listFiles = async (folderId) => {
     return data.files;
   };
 
-export { getAccessToken, getFileId, downloadFile, updateFile, listFiles };
+
+
+export { getAccessToken, getFileId, downloadFile, updateFile, listFiles, getDownloadUrl };

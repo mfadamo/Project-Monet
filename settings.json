@@ -7,8 +7,15 @@
         "forcePort": false
     },
     "gdrive": {
-        "client_id": "",
-        "client_secret": "",
-        "refresh_token": ""
+        "folderID": {
+            "//1" : "Change to your own folderID",
+            "cdn": ""
+        },
+        "credential": {
+            "client_id": "***.apps.googleusercontent.com",
+            "client_secret": "",
+            "//1" : "See docs to get the Refresh Token",
+            "refresh_token": ""
+        }
     }
 }

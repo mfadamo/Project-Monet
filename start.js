@@ -1,3 +1,6 @@
+/* 
+ * 
+ */
 const os = require('os');
 const process = require('process');
 const nodejsVersion = process.version;
@@ -12,7 +15,7 @@ console.log("\x1b[33m[ROOT] Running Workers Without Cloudflare", `\n[ROOT] NodeJ
 
 var spawn = require('child_process').spawn;
 //kick off process of listing files
-var child = spawn(`${server.runCmd}`, [server.args, '--ip', server.ip, '--port', serverPort, '--local --no-verify'], { shell: true });
+var child = spawn(`${server.runCmd}`, [server.args, '--ip', server.ip, '--port', serverPort, '--local'], { shell: true });
 child.stdout.on('data', function (data) {
     var sdata = data.toString()
     var a = sdata.includes('[mf:inf]') || sdata.includes('wrangler') || sdata.includes('GET /') || sdata.includes('POST /') || sdata.includes('PUT /') || sdata.includes("[mf:wrn]")
@@ -24,6 +27,8 @@ child.stdout.on('data', function (data) {
         if (sdata.startsWith('[ROOT]')) color = colours.fg.yellow
         if (sdata.startsWith('[PING]')) color = colours.fg.gray
         if (sdata.startsWith('[SUBS]')) color = colours.fg.blue
+        if (sdata.startsWith('[DRIVE]')) color = colours.fg.red
+        if (sdata.startsWith('[ERROR]')) color = colours.fg.red
         process.stdout.write(color + sdata + colours.reset);
     }
 })

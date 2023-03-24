@@ -27,3 +27,5 @@ To use Just Dance Unlimited Monet Server, you need to follow these steps:
 
 ## Configuration
 The configuration options for Just Dance Unlimited Monet Server are stored in the settings.json file in the root directory of the cloned repository.
+
+If you're feeling lost or confused, don't worry! The documentation for Project Monet can be found at the following link: https://github.com/mfadamo/Project-Monet/tree/docs. By referring to this comprehensive guide, you'll be able to navigate through the project with ease and confidence. So, take a deep breath and let the helpful documentation be your guide!
