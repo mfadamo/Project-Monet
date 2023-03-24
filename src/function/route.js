@@ -2,11 +2,13 @@ var varjs = require("./var.js")
 
 export function get(req, path, func) {
     if (req.method === 'GET') {
-        const { pathname } = new URL(req.url);
+        const correctedUrl = req.url.replace(/\/{2,}/g, "/");
+        const { pathname } = new URL(correctedUrl);
         var data = {
             url: pathname,
             method: req.method,
-            client: varjs.fakeID(req.headers.get("Cf-Connecting-Ip"))
+            client: varjs.fakeID(req.headers.get("Cf-Connecting-Ip")),
+            headers: req.headers
         }
         if (path == pathname || varjs.parseUrlParams(pathname, path)) {
             if (varjs.parseUrlParams(pathname, path)) {
@@ -18,7 +20,8 @@ export function get(req, path, func) {
 }
 export function post(req, path, func) {
     if (req.method === 'POST') {
-        const { pathname } = new URL(req.url);
+        const correctedUrl = req.url.replace(/\/{2,}/g, "/");
+        const { pathname } = new URL(correctedUrl);
         var data = {
             url: pathname,
             method: req.method,
@@ -33,10 +36,10 @@ export function post(req, path, func) {
     }
 }
 
-export function send(data, statusCode, isFetch = false) {
+export function send(data, statusCode, headers = {}, isFetch = false) {
     if (isFetch) {
         return new Response(fetch(data));
     } else {
-        return new Response(data, { status: statusCode });
+        return new Response(data, { status: statusCode, headers: headers});
     }
 }

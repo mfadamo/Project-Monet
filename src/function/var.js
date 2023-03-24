@@ -47,12 +47,15 @@ export function parseUrlParams(url, pattern) {
 
 export function fakeID(string){
    var a = btoa(string)
+   a = btoa(a) //Make String Impossible To Convert It
    a = a.substring(Math.floor(a.length/2) - 4, Math.floor(a.length/2) + 4)
    return a;
   }
 
 export var main = {
   room: '{"room":"PCJD2017"}',
-  subs: JSON.stringify(require("../static/subscription.json"))
+  subs: JSON.stringify(require("../static/subscription.json")),
+  config: JSON.stringify(require("../static/configuration.json")),
+  entities: JSON.stringify(require("../static/entities.json"))
 }
   
