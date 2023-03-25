@@ -79,7 +79,7 @@ async function handleRequest(request, event, resp, state = '') {
 	return resp;
 }
 
-async function handleCDNRequest(pathname) {
+async function handleCDNRequest(pathname, request) {
 	const filePath = pathname.toString().substring('/cdn/'.length);
 	const fileId = await GoogleDrive.getFileId(settings.gdrive.folderID.cdn, filePath);
 	const downloadUrl = `https://www.googleapis.com/drive/v3/files/${fileId}?alt=media`;
@@ -88,11 +88,12 @@ async function handleCDNRequest(pathname) {
 	// Fetch the file from Google Drive and return it as a stream
 	const response = await fetch(downloadUrl, {
 		cf: { cacheEverything: true },
-		headers: { Authorization: `Bearer ${token}`, },
+		headers: { Authorization: `Bearer ${token}`,},
 	});
 	// Return the response with the stream piped to the client
 	return new Response(response.body, {
 	  headers: { "Content-Type": response.headers.get("Content-Type") },
+	  size: 2097152 
 	});
 }
 
@@ -100,7 +101,7 @@ addEventListener('fetch', event => {
 	const url = new URL(event.request.url);
 	hostname = url.hostname ? `${url.protocol}//${url.hostname}` : `${url.protocol}//127.0.0.1`;
 	if (url.pathname.startsWith('/cdn/')) {
-		event.respondWith(handleCDNRequest(url.pathname).catch(error => {
+		event.respondWith(handleCDNRequest(url.pathname, event.request).catch(error => {
 			console.error(error.stack)
 			return new Response(`CDN Failed to obtain file ${url.pathname} \n Error Code: ${btoa(error)}`, { status: 500 })
 		}))
