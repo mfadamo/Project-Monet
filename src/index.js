@@ -65,6 +65,24 @@ async function handleRequest(request, event, resp, state = '') {
 			}
 		};
 	})
+	route.get(request, "/packages/:version/sku-packages", (data) => {
+		state = 'FETCH'
+		resp = {
+			url: `${hostname}/cdn/database/sku-packages.json`,
+			options: {
+				method: "GET"
+			}
+		};
+	})
+	route.get(request, "/packages/:version/sku-constants", (data) => {
+		state = 'FETCH'
+		resp = {
+			url: `${hostname}/cdn/database/sku-constants.json`,
+			options: {
+				method: "GET"
+			}
+		};
+	})
 
 	route.post(request, "/subscription/v1/refresh", (data) => {
 		resp = route.send(varjs.main.subs, 200);
