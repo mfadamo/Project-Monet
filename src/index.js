@@ -35,8 +35,8 @@ async function handleRequest(request, event, resp, state = '') {
 		resp = route.send(varjs.main.config, 200);
 	})
 	route.get(request, "/:version/users/:user", (data) => {
-		var auth = data.headers["Authorization"];
-		var sessionid = data.headers["Ubi-SessionId"];
+		var auth = data.headers.get("Authorization");
+		var sessionid = data.headers.get("Ubi-SessionId");
 		state = 'FETCH'
 		resp = {
 			url: `https://public-ubiservices.ubi.com/v3/users/${data.params.user}`,
@@ -48,7 +48,7 @@ async function handleRequest(request, event, resp, state = '') {
 					Authorization: auth,
 					"Content-Type": "application/json",
 					"ubi-appbuildid": "BUILDID_259645",
-					"Ubi-AppId": data.headers["Ubi-AppID"],
+					"Ubi-AppId": data.headers.get("Ubi-AppID"),
 					"Ubi-localeCode": "en-us",
 					"Ubi-Populations": "US_EMPTY_VALUE",
 					"Ubi-SessionId": sessionid
