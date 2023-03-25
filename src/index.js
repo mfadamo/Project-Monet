@@ -19,7 +19,7 @@ async function handleRequest(request, event, resp, state = '') {
 
 	//Handle API
 	route.get(request, "/carousel/:version/pages/party", (data) => {
-		state = 'FETCH'
+		state = 'REDIRECT'
 		resp = route.cdn(hostname, "database/carousel.json");
 		console.log(`[CAROUSEL] Updating ${data.client} By Getting CDN`)
 	})
@@ -52,15 +52,15 @@ async function handleRequest(request, event, resp, state = '') {
 		};
 	})
 	route.get(request, "/songdb/:version/songs", (data) => {
-		state = 'FETCH'
+		state = 'REDIRECT'
 		resp = route.cdn(hostname, "database/songdb.json")
 	})
 	route.get(request, "/packages/:version/sku-packages", (data) => {
-		state = 'FETCH'
+		state = 'REDIRECT'
 		resp = route.cdn(hostname, "database/sku-packages.json")
 	})
 	route.get(request, "/packages/:version/sku-constants", (data) => {
-		state = 'FETCH'
+		state = 'REDIRECT'
 		resp = route.cdn(hostname, "database/sku-constants.json")
 	})
 
