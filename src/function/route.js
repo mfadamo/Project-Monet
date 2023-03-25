@@ -1,6 +1,6 @@
 var varjs = require("./var.js")
 
-export function get(req, path, func) {
+export async function get(req, path, func) {
     if (req.method === 'GET') {
         const correctedUrl = req.url.replace(/\/{2,}/g, "/");
         const { pathname } = new URL(correctedUrl);
@@ -14,11 +14,20 @@ export function get(req, path, func) {
             if (varjs.parseUrlParams(pathname, path)) {
                 data.params = varjs.parseUrlParams(pathname, path)
             }
-            func(data)
+            try {
+                const result = await func(data);
+                if (result instanceof Promise) {
+                    // If `func` is an asynchronous function, wait for it to complete
+                    await result.catch((err) => console.error(err));
+                }
+            } catch (err) {
+                console.error(err);
+            }
         }
     }
 }
-export function post(req, path, func) {
+
+export async function post(req, path, func) {
     if (req.method === 'POST') {
         const correctedUrl = req.url.replace(/\/{2,}/g, "/");
         const { pathname } = new URL(correctedUrl);
@@ -31,10 +40,20 @@ export function post(req, path, func) {
             if (varjs.parseUrlParams(pathname, path)) {
                 data.params = varjs.parseUrlParams(pathname, path)
             }
-            func(data)
+            try {
+                const result = await func(data);
+                if (result instanceof Promise) {
+                    // If `func` is an asynchronous function, wait for it to complete
+                    await result.catch((err) => console.error(err));
+                }
+            } catch (err) {
+                console.error(err);
+            }
         }
     }
 }
+
+
 
 export function send(data, statusCode, headers = {}, isFetch = false) {
     if (isFetch) {
