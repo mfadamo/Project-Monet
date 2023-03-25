@@ -20,13 +20,8 @@ async function handleRequest(request, event, resp, state = '') {
 	//Handle API
 	route.get(request, "/carousel/:version/pages/party", (data) => {
 		state = 'FETCH'
-		resp = {
-			url: `${hostname}/cdn/database/carousel.json`,
-			options: {
-				method: "GET"
-			}
-		};
-		console.log(`[CAROUSEL] Updating ${data.client} By Fetching CDN`)
+		resp = route.cdn(hostname, "database/carousel.json");
+		console.log(`[CAROUSEL] Updating ${data.client} By Getting CDN`)
 	})
 	route.get(request, "/v2/spaces/:SpaceID/entities", (data) => {
 		resp = route.send(varjs.main.entities, 200, {"Content-Type": "application/json"});
@@ -58,30 +53,15 @@ async function handleRequest(request, event, resp, state = '') {
 	})
 	route.get(request, "/songdb/:version/songs", (data) => {
 		state = 'FETCH'
-		resp = {
-			url: `${hostname}/cdn/database/songdb.json`,
-			options: {
-				method: "GET"
-			}
-		};
+		resp = route.cdn(hostname, "database/songdb.json")
 	})
 	route.get(request, "/packages/:version/sku-packages", (data) => {
 		state = 'FETCH'
-		resp = {
-			url: `${hostname}/cdn/database/sku-packages.json`,
-			options: {
-				method: "GET"
-			}
-		};
+		resp = route.cdn(hostname, "database/sku-packages.json")
 	})
 	route.get(request, "/packages/:version/sku-constants", (data) => {
 		state = 'FETCH'
-		resp = {
-			url: `${hostname}/cdn/database/sku-constants.json`,
-			options: {
-				method: "GET"
-			}
-		};
+		resp = route.cdn(hostname, "database/sku-constants.json")
 	})
 
 	route.post(request, "/subscription/v1/refresh", (data) => {

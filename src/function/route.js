@@ -43,3 +43,13 @@ export function send(data, statusCode, headers = {}, isFetch = false) {
         return new Response(data, { status: statusCode, headers: headers});
     }
 }
+
+export function cdn(hostname, path, method = 'GET') {
+	return {
+			url: `${hostname}/cdn/${path}`,
+			options: {
+				method: method
+			}
+	}
+
+}
