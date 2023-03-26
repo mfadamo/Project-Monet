@@ -8,5 +8,8 @@
   "private": true,
   "scripts": {
     "start": "node start.js"
+  },
+  "engines" : { 
+    "node" : ">=16.0.0"
   }
 }
