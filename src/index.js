@@ -99,7 +99,6 @@ async function handleCDNRequest(pathname) {
 
 addEventListener('fetch', event => {
 	const url = new URL(event.request.url);
-	hostname = url.hostname ? `${url.protocol}//${url.hostname}` : `${url.protocol}//127.0.0.1`;
 	if (url.pathname.startsWith('/cdn/')) {
 		event.respondWith(handleCDNRequest(url.pathname, event.request).catch(error => {
 			console.error(error.stack)
@@ -119,5 +118,4 @@ var route = require("./function/route");
 var varjs = require("./function/var");
 var GoogleDrive = require("./google/driveUtil");
 let usage = 0;
-var hostname;
 console.log("[SERVER] Running")

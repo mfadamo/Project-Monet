@@ -4,9 +4,7 @@
         "args": "wrangler dev src/index.js",
         "ip": "0.0.0.0",
         "port": 80,
-        "forcePort": false,
-        "//1" : "If You Didn't Using Workers.dev, Place Your Hostname Here",
-        "hostname": "prod-jdu.jdmonet.workers.dev"
+        "forcePort": false
     },
     "gdrive": {
         "folderID": {
