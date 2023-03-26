@@ -19,8 +19,8 @@ async function handleRequest(request, event, resp, state = '') {
 
 	//Handle API
 	route.get(request, "/carousel/:version/pages/party", (data) => {
-		state = 'REDIRECT'
-		resp = route.cdn(hostname, "database/carousel.json");
+		state = 'CDN'
+		resp = route.fetch('database/carousel.json')
 		console.log(`[CAROUSEL] Updating ${data.client} By Getting CDN`)
 	})
 	route.get(request, "/v2/spaces/:SpaceID/entities", (data) => {
@@ -52,16 +52,16 @@ async function handleRequest(request, event, resp, state = '') {
 		};
 	})
 	route.get(request, "/songdb/:version/songs", (data) => {
-		state = 'REDIRECT'
-		resp = route.cdn(hostname, "database/songdb.json")
+		state = 'CDN'
+		resp = route.fetch("database/songdb.json")
 	})
 	route.get(request, "/packages/:version/sku-packages", (data) => {
-		state = 'REDIRECT'
-		resp = route.cdn(hostname, "database/sku-packages.json")
+		state = 'CDN'
+		resp = route.fetch("database/sku-packages.json")
 	})
 	route.get(request, "/packages/:version/sku-constants", (data) => {
-		state = 'REDIRECT'
-		resp = route.cdn(hostname, "database/sku-constants.json")
+		state = 'CDN'
+		resp = route.fetch("database/sku-constants.json")
 	})
 
 	route.post(request, "/subscription/v1/refresh", (data) => {
@@ -73,12 +73,14 @@ async function handleRequest(request, event, resp, state = '') {
 	//End Of API
 	if (state == "REDIRECT") return Response.redirect(resp.url, 301);
 	if (state == "FETCH") return fetch(resp.url, resp.options)
+	if (state == "CDN") return await handleCDNRequest(resp.url);
 	if (!resp) resp = route.send("API Not Found \n Error Code : 404", 404);
 	return resp;
 }
 
-async function handleCDNRequest(pathname, request) {
-	const filePath = pathname.toString().substring('/cdn/'.length);
+async function handleCDNRequest(pathname) {
+	const filePath = pathname.toString()
+	if(pathname.startsWith('/cdn/'))filePath.substring('/cdn/'.length);
 	const fileId = await GoogleDrive.getFileId(settings.gdrive.folderID.cdn, filePath);
 	const downloadUrl = `https://www.googleapis.com/drive/v3/files/${fileId}?alt=media`;
 	const token = await GoogleDrive.getAccessToken();

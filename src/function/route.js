@@ -53,22 +53,13 @@ export async function post(req, path, func) {
     }
 }
 
-
-
-export function send(data, statusCode, headers = {}, isFetch = false) {
-    if (isFetch) {
-        return new Response(fetch(data));
-    } else {
-        return new Response(data, { status: statusCode, headers: headers});
+export function fetch(url, method = {}) {
+    return {
+      url: url,
+      options: method
     }
 }
 
-export function cdn(hostname, path, method = 'GET') {
-	return {
-			url: `${hostname}/cdn/${path}`,
-			options: {
-				method: method
-			}
-	}
-
+export function send(data, statusCode, headers = {}) {
+        return new Response(data, { status: statusCode, headers: headers});
 }
