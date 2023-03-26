@@ -1,9 +1,0 @@
-name = "jdu-monet"
-main = "src/index.js"
-compatibility_date = "2023-03-20"
-
-[env.production]
-name = "prod-jdu"
-
-[env.edge]
-name = "edge-jdu"
